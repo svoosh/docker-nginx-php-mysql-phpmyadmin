@@ -1,0 +1,46 @@
+version: '3'
+services:
+    nginx:
+      build: ./nginx/
+      container_name: nginx-container
+      ports:
+        - "8000:80"
+      volumes:
+        - "./www/html:/var/www/html"
+      restart: always
+      depends_on:
+        - php
+        - mysql
+
+    php:
+      build: ./php/
+      container_name: php-container
+      restart: always
+      volumes:
+        - ./www/html/:/var/www/html/
+
+    mysql:
+      image: mysql:5.7
+      container_name: mysql-container
+      restart: always
+      environment:
+        MYSQL_DATABASE: mydb
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_USER: myuser
+        MYSQL_PASSWORD: password
+      ports:
+        - "6033:3306"
+      volumes:
+        - "./mysql:/var/lib/mysql"
+
+    myadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: phpmyadmin-container
+      ports:
+        - "8081:80"
+      environment:
+        - PMA_ARBITRARY=1
+        - PMA_HOST=mysql-container
+      restart: always
+      depends_on:
+        - mysql

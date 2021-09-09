@@ -1,0 +1,14 @@
+# Global
+.*.swp
+.DS_Store
+
+# Application
+www/app/composer.json
+www/app/composer.lock
+www/app/vendor/
+www/app/doc/
+www/app/report/
+mysql/
+
+# VSCode
+.vscode/
